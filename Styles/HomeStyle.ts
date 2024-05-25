@@ -1,6 +1,32 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ImageStyle, ViewStyle, TextStyle } from 'react-native';
 
-const styles = StyleSheet.create({
+interface Styles {
+  main_button: ViewStyle;
+  container: ViewStyle;
+  headerContainer: ViewStyle;
+  companyLogo: ImageStyle;
+  headerText: TextStyle;
+  searchSection: ViewStyle;
+  input: ViewStyle;
+  button: ViewStyle;
+  buttonText: TextStyle;
+  content: ViewStyle;
+  map: ViewStyle;
+  markerContainer: ViewStyle;
+  marker: ViewStyle;
+  defaultMarker: ViewStyle;
+  startMarker: ViewStyle;
+  endMarker: ViewStyle;
+  dock: ViewStyle;
+  buttonIcon: ImageStyle;
+  modalView: ViewStyle;
+  modalTitle: TextStyle;
+  modalText: TextStyle;
+  buttonClose: ViewStyle;
+  markerImage: ImageStyle; // Додано тип для markerImage
+}
+
+const styles = StyleSheet.create<Styles>({
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -58,10 +84,23 @@ const styles = StyleSheet.create({
   map: {
     flex: 1,
   },
-  markerImage: {
-    width: 30,
-    height: 30,
-    resizeMode: 'contain',
+  markerContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  marker: {
+    width: 25,
+    height: 20,
+    borderRadius: 15,
+  },
+  defaultMarker: {
+    backgroundColor: 'blue',
+  },
+  startMarker: {
+    backgroundColor: 'green',
+  },
+  endMarker: {
+    backgroundColor: 'red',
   },
   dock: {
     flexDirection: 'row',
@@ -102,6 +141,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
     borderRadius: 5,
   },
+  markerImage: {
+    width: 30,
+    height: 30,
+    resizeMode: 'contain',
+  },
+  main_button: {
+    backgroundColor: '#111111', // Змінено на червоний
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    elevation: 4,
+  }
 });
 
 export default styles;

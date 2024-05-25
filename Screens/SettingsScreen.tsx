@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import {StyleSheet,SafeAreaView, View,ScrollView,Text,TouchableOpacity, Switch, Image, } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import profilePhoto from '/Users/vilen/RubiconProject/images/settings_photo.png';
+import profilePhoto from '../images/settings_photo.png';
 import SvgComponent from '../SvgFiles/settings_svg';
-import styles from '/Users/vilen/RubiconProject/Styles/SettingsStyle';
+import styles from '../Styles/SettingsStyle';
 import Svg, { Path } from 'react-native-svg';
 import RouteSVG from '../SvgFiles/route_svg';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -23,31 +23,18 @@ export default function Example() {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
         <View style={styles.profile}>
-          <TouchableOpacity
-            onPress={() => {
-              // Обробляти онпресс
-            }}>
             <View style={styles.profileAvatarWrapper}>
               <Image
                 alt="Profile Photo"
                 source={profilePhoto}
                 style={styles.profileAvatar} />
-              <TouchableOpacity
-                onPress={() => {
-                  // Обробляти онпресс
-                }}>
-
-
-
                 <View style={styles.profileAction}>
                   <FeatherIcon
                     color="#fff"
                     name="edit-3"
                     size={15} />
                 </View>
-              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
           <View>
             <Text style={styles.profileName}>Settings</Text>
           </View>
