@@ -834,7 +834,7 @@
         "type": "Feature",
         "properties": {
           "@id": "node/3782335972",
-          "amenity": "cinema",
+          "category": "entertaiment",
           "check_date:opening_hours": "2020-12-15",
           "level": "3",
           "name": "Планета Кіно",

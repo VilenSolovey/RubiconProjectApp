@@ -1,26 +1,29 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import HomeScreen from './Screens/HomeScreen';
 import SettingsScreen from './Screens/SettingsScreen';
 import FilesScreen from './Screens/FileScreen';
+import AccountScreen from './Screens/AccountScreen';
 
 type RootStackParamList = {
   Home: undefined;
   Settings: undefined;
   Files: undefined;
+  Account: undefined;
 };
 
+const Stack = createStackNavigator<RootStackParamList>();
+
 function App() {
-  const Drawer = createDrawerNavigator();
   return (
     <NavigationContainer>
-      <Drawer.Navigator 
-      initialRouteName="Home">
-        <Drawer.Screen name="Home" component={HomeScreen} />
-        <Drawer.Screen name="Settings" component={SettingsScreen} />
-        <Drawer.Screen name="Files" component={FilesScreen} />
-      </Drawer.Navigator>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Settings" component={SettingsScreen} options={{ headerTitle: 'Налаштування' }} />
+        <Stack.Screen name="Files" component={FilesScreen} options={{ headerTitle: 'Файли' }} />
+        <Stack.Screen name="Account" component={AccountScreen} options={{ headerTitle: 'Акаунт' }} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
