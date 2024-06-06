@@ -18,10 +18,37 @@ const styles = StyleSheet.create({
   profileAvatarWrapper: {
     position: 'relative',
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    width: '80%',
+    backgroundColor: '#fff',
+    padding: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  modalInput: {
+    width: '100%',
+    height: 100,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    padding: 8,
+    marginBottom: 16,
+    textAlignVertical: 'top',
+  },
   profileAvatar: {
     width: 72,
     height: 72,
-    borderRadius: 9999,
+    borderRadius: 1,
   },
   profileAction: {
     position: 'absolute',
@@ -70,6 +97,39 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     paddingLeft: 12,
     paddingRight: 12,
+  },
+  profileRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center', // Вирівнювання по центру
+    height: 75, // Збільшена висота
+    backgroundColor: '#f2f2f2',
+    borderRadius: 8,
+    marginBottom: 12,
+    paddingLeft: 12,
+    paddingRight: 12,
+  },
+  profileRowIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 9999,
+    marginRight: 89,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  profileRowTextContainer: {
+    alignItems: 'center', // Вирівнювання тексту по центру
+  },
+  profileRowLabel: {
+    fontSize: 20, // Збільшений розмір шрифту
+    fontWeight: '600',
+    color: '#0c0c0c',
+  },
+  profileRowSubLabel: {
+    fontSize: 16, // Збільшений розмір шрифту
+    fontWeight: '400',
+    color: '#0c0c0c',
   },
   rowIcon: {
     width: 32,
