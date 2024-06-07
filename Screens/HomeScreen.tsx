@@ -58,6 +58,8 @@ interface Location {
     type: string;
     coordinates: [number, number];
   };
+  "addr:street"?: string;
+  "addr:housenumber"?: string;
 }
 
 interface Locations {
@@ -108,6 +110,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       headerShown: false,
     });
   }, [navigation]);
+
   const toggleCategory = (category: string) => {
     setSelectedCategories(prevCategories => {
       if (prevCategories.includes(category)) {
@@ -117,7 +120,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       }
     });
   };
-  
+
   const filterMarkers = () => {
     if (selectedCategories.length === 0) {
       setFilteredMarkers(locations.features);
@@ -128,6 +131,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       setFilteredMarkers(markersForCategories);
     }
   };
+
   useEffect(() => {
     filterMarkers();
   }, [selectedCategories]);
@@ -135,6 +139,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   useEffect(() => {
     filterMarkers();
   }, []);
+
   const getIconForCategory = (category: string | undefined) => {
     const iconMap: { [key: string]: any } = {
       museum: museumIcon,
@@ -170,9 +175,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     setSelectedPlace(place);
   };
 
-  const onMapPress = (e: any) => {
-    if (!canSelectPoints) {
-    }
+  const onMapPress = async (e: any) => {
+    if (!canPlaceMarkers) return;
   
     const coordinates = e.geometry.coordinates.slice();
     const newCoordinates = {
@@ -182,11 +186,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   
     if (!startCoordinates) {
       setStartCoordinates(newCoordinates);
-    } else if (!endCoordinates) {
+    } else {
       setEndCoordinates(newCoordinates);
       setSearchVisible(true); // Відкриваємо вікно пошуку після вибору кінцевої точки
     }
   };
+  
 
   const createRoute = async () => {
     if (!startCoordinates || !endCoordinates) {
@@ -204,6 +209,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     setRoute(null);
     Alert.alert('Маршрут скинутий!');
   };
+  const [canPlaceMarkers, setCanPlaceMarkers] = useState(true);
 
   const searchLocation = async (query: string) => {
     const response = await axios.get(
@@ -225,7 +231,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         setEndCoordinates({ latitude: end[1], longitude: end[0] });
 
         setSearchVisible(false); // Закриття вікна пошуку після створення маршруту
-        createRoute(); // Створення маршруту після пошуку
+
+        // Перевіряємо, чи вибраний режим транспорту
+        if (mode) {
+          createRoute(); // Створення маршруту після пошуку
+        }
       } else {
         Alert.alert('Не вдалося знайти місце. Будь ласка, спробуйте ще раз.');
       }
@@ -236,8 +246,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   const handleTransportModePress = (mode: string) => {
     setMode(mode);
-    setCanSelectPoints(true);
     setSearchVisible(false); // Закриваємо вікно пошуку після вибору режиму
+
+    // Викликаємо створення маршруту після вибору режиму
+    if (startCoordinates && endCoordinates) {
+      createRoute();
+    }
   };
 
   return (
@@ -268,7 +282,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             <Icon name="close" size={20} color="#ccc" />
           </TouchableOpacity>
           <View style={styles.searchInputContainer}>
-            <Icon name="circle-o" size={20} color="#50C0A1" />
+            <Icon name="circle-o" size={20} color="#50C0A1" style={styles.inputIcon} />
+            <Icon name="search" size={20} color="#979c9a" style={styles.inputIcon} />
             <TextInput
               style={styles.searchInput}
               placeholder="Your location"
@@ -277,7 +292,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             />
           </View>
           <View style={styles.searchInputContainer}>
-            <Icon2 name="map-pin" size={20} color="#F24A72" />
+            <Icon name="map-pin" size={20} color="#F24A72" style={styles.inputIcon} />
+            <Icon name="search" size={20} color="#979c9a" style={styles.inputIcon2} />
             <TextInput
               style={styles.searchInput}
               placeholder="Destination"
@@ -285,6 +301,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               onChangeText={setSearchEnd}
             />
           </View>
+          <View style={styles.horizontalLine} />
           <View style={styles.transportButtons}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <TouchableOpacity onPress={() => handleTransportModePress('wheelchair')} style={styles.transportButton}>
@@ -303,6 +320,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           </View>
         </View>
       )}
+
       <View style={styles.content}>
         <MapboxGL.MapView
           style={styles.map}
@@ -322,6 +340,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               key={`location-${index}`}
               id={`node-${index}`}
               coordinate={location.geometry.coordinates}
+              onSelected={() => handleSelectPlace(location.properties)}
             >
               <Image source={getIconForCategory(location.properties.category)} style={styles.markerImage} />
             </MapboxGL.PointAnnotation>
@@ -465,29 +484,41 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       </View>
 
       {selectedPlace && (
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={selectedPlace !== null}
-          onRequestClose={() => setSelectedPlace(null)}
-        >
-          <View style={styles.modalView}>
-            <Text style={styles.modalTitle}>Інформація про заклад</Text>
-            <ScrollView>
-              {selectedPlace.name && <Text style={styles.modalText}>Назва закладу: {selectedPlace.name}</Text>}
-              {selectedPlace.brand && <Text style={styles.modalText}>Бренд: {selectedPlace.brand}</Text>}
-              {selectedPlace.wheelchair && <Text style={styles.modalText}>Wheelchair Accessible: {selectedPlace.wheelchair}</Text>}
-              {selectedPlace.category && <Text style={styles.modalText}>Категорія: {selectedPlace.category}</Text>}
-            </ScrollView>
-            <TouchableOpacity
-              style={styles.buttonClose}
-              onPress={() => setSelectedPlace(null)}
-            >
-              <Text style={styles.buttonText}>Закрити</Text>
-            </TouchableOpacity>
-          </View>
-        </Modal>
+  <View style={styles.placeInfoContainer}>
+    <View style={styles.placeInfo}>
+      <Text style={styles.placeName}>{selectedPlace.name}</Text>
+      <Text style={styles.placeDetails}>
+        {selectedPlace['addr:street']} {selectedPlace['addr:housenumber']}
+      </Text>
+      <Text style={styles.placeDetails}>Сайт -- {selectedPlace.website}</Text>
+      {selectedPlace.opening_hours && (
+        <Text style={styles.placeDetails}>Години відкриття: {selectedPlace.opening_hours}</Text>
       )}
+      <Text style={styles.placeDetails}>{selectedPlace.phone}</Text>
+      <View style={styles.placeIcons}>
+      <TouchableOpacity style={styles.transportButton2}>
+          <Image source={wheelchairIcon} style={styles.placeIcon} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.transportButton2}>
+          <Image source={footIcon} style={styles.placeIcon} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.transportButton2}>
+          <Image source={carIcon} style={styles.placeIcon} />
+        </TouchableOpacity>
+      </View>
+    </View>
+    <TouchableOpacity style={styles.closePlaceInfo} onPress={() => setSelectedPlace(null)}>
+  <Icon name="close" size={20} color="#000" />
+</TouchableOpacity>
+
+    <TouchableOpacity style={styles.savePlaceInfo} onPress={() => {/* handle save action */}}>
+      <Icon name="bookmark" size={20} color="#000" />
+    </TouchableOpacity>
+    <TouchableOpacity style={styles.extraButton} onPress={() => {/* handle extra button action */}}>
+      <Image source={require('../images/free.png')} style={styles.extraButtonIcon} />
+    </TouchableOpacity>
+  </View>
+)}
     </SafeAreaView>
   );
 };

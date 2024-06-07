@@ -217,7 +217,7 @@ const styles = StyleSheet.create<Styles>({
     overflow: 'hidden', // дозволяє мапі вийти за межі контейнера
   },
   markerImage: {
-    width: 32,
+    width: 35,
     height: 35,
     resizeMode: 'contain',
   },
@@ -294,10 +294,17 @@ const styles = StyleSheet.create<Styles>({
     left: 10,
     right: 10,
   },
+  horizontalLine: {
+    borderBottomColor: '#ccc',
+    borderBottomWidth: 1,
+    marginVertical: 10,
+    width: '80%',
+    alignSelf: 'center',
+  },
   searchContainer: {
-    padding: 12,
+    padding: 10,
     backgroundColor: '#fff',
-    borderRadius: 15,
+    borderRadius: 28,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
@@ -308,34 +315,115 @@ const styles = StyleSheet.create<Styles>({
     left: 60,
     right: 10,
     zIndex: 8,
-    alignItems: 'flex-end', // Додати цю лінію для вирівнювання хрестика
+    alignItems: 'flex-end', // Keep this for the close button alignment
   },
   searchInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 1,
+    padding: 8,
     marginVertical: 5,
     backgroundColor: '#f9f9f9',
-    borderRadius: 5,
+    borderRadius: 20,
+    width: '100%', // Adjusted width to make it truncated from the right
+  },
+  inputIcon: {
+    marginHorizontal: 5,
+  },
+  inputIcon2: {
+    marginHorizontal: 10,
   },
   transportIcon: {
-    width: 24,
+    width: 25,
     height: 25,
     resizeMode: 'contain',
   },
   goButtonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 15,
   },
   searchInput: {
+    justifyContent: 'center',
     flex: 1,
-    paddingHorizontal: 8,
+    paddingHorizontal: 10,
+    borderRadius: 20,
+    backgroundColor: '#f9f9f9',
+    height: 40,
+  },
+  placeInfoContainer: {
+    position: 'absolute',
+    top: '70%',
+    left: '40%',
+    transform: [{ translateX: -150 }, { translateY: -100 }], // Розрахунок для центрування
+    width: 370,
+    padding: 10,
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 10,
+    zIndex: 10,
+  },
+  
+  placeInfo: {
+    padding: 10,
+  },
+  placeName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'darkblue', // Темно-синій колір для назви
+  },
+  placeDetails: {
+    fontSize: 14,
+    color: '#666',
+    marginVertical: 2,
+  },
+  placeIcons: {
+    flexDirection: 'row',
+    justifyContent: 'center', // Вирівнювання кнопок по центру
+    marginTop: 10,
+  },
+  placeIcon: {
+    width: 24,
+    height: 24,
+    marginHorizontal: 5,
+  },
+  closePlaceInfo: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    padding: 0, // Встановлення padding на 0
+  },
+  extraButton: {
+    position: 'absolute',
+    bottom: 232, // Відступ знизу
+    right: 3,  // Відступ справа
+    width: 30, // Розміри кнопки
+    height: 30, 
+    borderRadius: 50, // Кругла форма
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    elevation: 10,
+  },
+  extraButtonInner: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+  },
+  extraButtonIcon: {
+    width: 30,
+    height: 30,
   },
   transportButtons: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 1, // Збільшено відступ
+    width: '100%', // Змінено ширину
   },
   categoryButtonsWrapper: {
     position: 'absolute',
@@ -376,6 +464,31 @@ const styles = StyleSheet.create<Styles>({
     fontSize: 15,
     color: '#000',
   },
+  transportButton2: {
+    marginHorizontal: 5,
+    padding: 10,
+    backgroundColor: '#fff',
+    borderRadius: 30,
+    marginRight: 20, // збільшена відстань між кнопками
+    shadowColor: '#000',
+    shadowOffset: { width: 1, height: 2 },
+    shadowOpacity: 0.9,
+    shadowRadius: 3,
+    elevation: 4,
+  },
+  savePlaceInfo: {
+    position: 'absolute',
+    bottom: 50,
+    right: 20,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 5,
+  },
   transportButton: {
     backgroundColor: '#fff',
     borderRadius: 25,
@@ -400,10 +513,14 @@ const styles = StyleSheet.create<Styles>({
     shadowOpacity: 0.3,
     shadowRadius: 3,
     elevation: 4,
+
   },
+  
   closeButton: {
     position: 'absolute',
     top: 10,
+    zIndex: 10,
+    padding: -10,
     right: 10,
   },
   selectedTransportIcon: undefined

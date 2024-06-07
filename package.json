@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@mapbox/mapbox-gl-geocoder": "^5.0.2",
     "@react-native-community/geolocation": "^3.2.1",
     "@react-native-picker/picker": "^2.7.5",
     "@react-navigation/drawer": "^6.6.15",

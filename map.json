@@ -2007,6 +2007,8 @@
         "properties": {
           "@id": "node/6036097786",
           "category": "postoffice",
+          "addr:housenumber": "45а",
+          "addr:street": "Вулиця Стрийська",
           "brand": "Нова Пошта",
           "brand:en": "Nova Poshta",
           "brand:uk": "Нова Пошта",
@@ -2022,7 +2024,7 @@
           "name": "Нова пошта №67",
           "name:ru": "Новая почта №67",
           "name:uk": "Нова пошта №67",
-          "opening_hours": "Mo-Fr 09:00-20:00; Sa 09:00-17:00",
+          "opening_hours": "Пн-Пт 09:00-20:00; Сб-Нд 09:00-17:00",
           "operator:uk": "Товариство з обмеженою відповідальністю \"Нова Пошта\"",
           "website": "https://www.novaposhta.ua",
           "wheelchair": "yes"
